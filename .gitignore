@@ -4,3 +4,9 @@ dist
 dist-ssr
 *.local
 node_modules/*
+.editorconfig
+.yarnrc.yml
+.yarn/cache/@types-prop-types-npm-15.7.4-592896a9fe-ef6e1899e5.zip
+.yarn/cache/
+.idea/
+.yarn/
