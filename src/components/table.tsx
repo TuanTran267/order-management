@@ -84,7 +84,7 @@ const rows = [
       { name: 'Fried Chicken', price: 100000 },
     ],
     100000,
-    '17-01-2016 08:44:30',
+    '05-02-2022 16:00:00',
   ),
   createData(
     '2',
@@ -99,7 +99,7 @@ const rows = [
       { name: 'Fried Chicken', price: 100000 },
     ],
     100000,
-    '17-01-2016 08:44:29',
+    '05-02-2022 16:05:00',
   ),
   createData(
     '3',
@@ -114,7 +114,7 @@ const rows = [
       { name: 'Fried Chicken', price: 100000 },
     ],
     100000,
-    '17-01-2016 08:44:29',
+    '05-02-2022 16:10:00',
   ),
   createData(
     '4',
@@ -385,13 +385,13 @@ export default function EnhancedTable() {
   const [filterData, setFilterData] = React.useState({});
 
   React.useEffect(() => {
-    console.log(filterData);
     if (Object.keys(filterData).length > 0) {
       const filteredData = rows.filter((data) => {
         for (let key in filterData) {
-          if (key === 'updatedTime') {
-            let currentTime = moment('2013-09-05 15:34:00', 'YYYY-MM-DD HH:mm:ss').unix();
-            console.log('current', currentTime);
+          if (key === 'updateTime') {
+            return moment()
+              .subtract(Number(filterData[key]), 'm')
+              .isBefore(moment(data.updateTime, 'DD-MM-YYYY HH:mm:ss'));
           } else {
             if (data[key] === undefined || data[key] !== filterData[key]) return false;
           }
