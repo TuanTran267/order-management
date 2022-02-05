@@ -2,7 +2,7 @@ import './App.css';
 import './assets/style/style.css';
 
 //Components
-import Table from 'components/table';
+import Table from 'components/Table';
 import React from 'react';
 
 function App() {
