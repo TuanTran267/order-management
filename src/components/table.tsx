@@ -23,9 +23,8 @@ import Typography from '@mui/material/Typography';
 import { visuallyHidden } from '@mui/utils';
 import moment from 'moment';
 import * as React from 'react';
-import { useEffect } from 'react';
 
-import Filter from './filter';
+import Filter from './Filter';
 
 interface Dish {
   name: string;
@@ -85,7 +84,7 @@ const rows = [
       { name: 'Fried Chicken', price: 100000 },
     ],
     100000,
-    '17-01-2016 08:44:30',
+    '05-02-2022 16:00:00',
   ),
   createData(
     '2',
@@ -100,7 +99,7 @@ const rows = [
       { name: 'Fried Chicken', price: 100000 },
     ],
     100000,
-    '17-01-2016 08:44:29',
+    '05-02-2022 16:05:00',
   ),
   createData(
     '3',
@@ -115,7 +114,7 @@ const rows = [
       { name: 'Fried Chicken', price: 100000 },
     ],
     100000,
-    '17-01-2016 08:44:29',
+    '05-02-2022 16:10:00',
   ),
   createData(
     '4',
@@ -385,34 +384,25 @@ export default function EnhancedTable() {
   const [orderData, setOrderData] = React.useState(rows);
   const [filterData, setFilterData] = React.useState({});
 
-  useEffect(() => {
-    // console.log(new Date("2013/09/05 15:34:00"));
-    // const interval = setInterval(() => {
-    //   setTimer(new Date());
-    // }, 1000);
-    // return () => clearInterval(interval);
-    // if (Object.keys(filterData).length > 0) {
-    //   console.log(filterData);
-    //   // console.log(orderData);
-    //
-    //   const filtedData = rows.filter((data) => {
-    //     for (let key in filterData) {
-    //       if (key === 'updatedTime') {
-    //         console.log('update', data);
-    //       } else {
-    //         if (data[key] === undefined || data[key] !== filterData[key]) return false;
-    //       }
-    //     }
-    //     return true;
-    //   });
-    //
-    //   console.log(filtedData);
-    //
-    //   setOrderData(filtedData);
-    // } else {
-    //   setOrderData(rows);
-    // }
-  }, []);
+  React.useEffect(() => {
+    if (Object.keys(filterData).length > 0) {
+      const filteredData = rows.filter((data) => {
+        for (let key in filterData) {
+          if (key === 'updateTime') {
+            return moment()
+              .subtract(Number(filterData[key]), 'm')
+              .isBefore(moment(data.updateTime, 'DD-MM-YYYY HH:mm:ss'));
+          } else {
+            if (data[key] === undefined || data[key] !== filterData[key]) return false;
+          }
+        }
+        return true;
+      });
+      setOrderData(filteredData);
+    } else {
+      setOrderData(rows);
+    }
+  }, [filterData]);
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc';

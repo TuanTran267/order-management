@@ -1,4 +1,3 @@
-import Typography from '@material-ui/core/Typography';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -6,20 +5,18 @@ import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import * as React from 'react';
 
-export default function Filter(props: {
-  data: any;
-  onFilterChange: () => void;
-}) {
+export default function Filter(props: { data: any; onFilterChange: () => void }) {
   let filterData = props.data;
 
   const handleChange = (type: string, event: any) => {
     if (event.target.value !== '') {
-      filterData[type] = event.target.value;
-      props.onFilterChange(filterData);
+      props.onFilterChange({ ...filterData, [type]: event.target.value });
     } else {
       delete filterData[type];
+      props.onFilterChange({ ...filterData });
     }
   };
 
